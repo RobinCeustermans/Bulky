@@ -16,5 +16,12 @@ namespace BulkyWeb.Controllers
             List<Category> objCategoryList = _db.Categories.ToList();
             return View(objCategoryList);
         }
+
+        public IActionResult Create()
+        { 
+            return View();
+            //you could pas a new class, but not needed as long as the class is defined in the view, could be useful to define a few properties beforehand
+            //return View(new Category());
+        }
     }
 }

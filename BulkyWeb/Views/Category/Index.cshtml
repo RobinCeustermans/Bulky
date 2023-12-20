@@ -1,7 +1,22 @@
 ﻿@model List<Category>
 
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2 class="text-primary">
+                Category List
+            </h2>
+        </div>
+        <div class="col-6 text-end">
+@*If controller name is the same as the viewname, you can skip asp-action*@
+            @* <a asp-action="Create" class="btn btn-primary"></a> *@
+            <a asp-controller="Category" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Create New Category
+            </a>
+        </div>
+    </div>
+ </div>
 
-<h1>Category List</h1>
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -22,7 +37,7 @@
                     @item.DisplayOrder
                 </td>
             </tr>
-        }    
+        }
     </tbody>
-    
+
 </table>
