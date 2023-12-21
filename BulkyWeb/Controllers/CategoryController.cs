@@ -27,9 +27,18 @@ namespace BulkyWeb.Controllers
         [HttpPost] //aanotation has to be present
         public IActionResult Create(Category obj)
         { 
-            _db.Categories.Add(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index", "Category");
+            if (obj.Name == obj.DisplayOrder.ToString()) //toLower won't work if any property is null
+            {
+                ModelState.AddModelError("name", "Name and DisplayOrder cannot be the same value");
+                ModelState.AddModelError("displayorder", "DisplayOrder and Name cannot be the same value");
+            }          
+            if (ModelState.IsValid)
+            {
+                _db.Categories.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index", "Category");
+            }
+            return View(obj);
         }
     }
 }
