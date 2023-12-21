@@ -40,5 +40,62 @@ namespace BulkyWeb.Controllers
             }
             return View(obj);
         }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id==null || id.Value == 0)
+            {
+                return NotFound();
+            }
+            Category? category = _db.Categories.Find(id); //only works on pk
+            //Category category1 = _db.Categories.FirstOrDefault(x => x.Id == id); //could search on name
+            //Category category2 = _db.Categories.Where(x => x.Id == id).FirstOrDefault();
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Category obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Categories.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index", "Category");
+            }
+            return View(obj);
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id.Value == 0)
+            {
+                return NotFound();
+            }
+            Category? category = _db.Categories.Find(id); 
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeletePOST(int? id)
+        {
+            Category? category = _db.Categories.Find(id);
+            if (category == null) 
+            {
+                return NotFound();
+            }
+
+            _db.Categories.Remove(category);
+            _db.SaveChanges();
+            return RedirectToAction("Index", "Category");
+        }
     }
 }
