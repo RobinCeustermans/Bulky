@@ -16,7 +16,7 @@
             <div class="col-6 text-end">
                 @*If controller name is the same as the viewname, you can skip asp-action*@
                 @* <a asp-action="Create" class="btn btn-primary"></a> *@
-                <a asp-controller="Category" asp-action="Create" class="btn btn-primary">
+                <a asp-area="Admin" asp-controller="Category" asp-action="Create" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Create New Category
                 </a>
             </div>
@@ -45,10 +45,10 @@
                         </td>
                         <td>
                             <div class="w-75 btn-group" role="group">
-                                <a asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary mx-2">
+                                <a asp-area="Admin" asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary mx-2">
                                     <i class="bi bi-pencil-square"></i> Edit
                                 </a>
-                                <a asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger mx-2">
+                                <a asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger mx-2">
                                     <i class="bi bi-trash-fill"></i> Delete
                                 </a>
                             </div>
