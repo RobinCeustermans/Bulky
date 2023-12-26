@@ -1,10 +1,5 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
 using BulkyWeb.DataAcces.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bulky.DataAccess.Repository
 {
@@ -12,10 +7,12 @@ namespace Bulky.DataAccess.Repository
     {
         private ApplicationDbContext _context;
         public ICategoryRepository CategoryRepository { get; private set; }
+        public IProductRepository ProductRepository { get; private set; }
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
             CategoryRepository = new CategoryRepository(_context);
+            ProductRepository = new ProductRepository(_context);
         }
 
         public void Save()
