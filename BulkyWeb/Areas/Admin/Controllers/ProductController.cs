@@ -1,6 +1,8 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
+using Bulky.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
@@ -20,20 +22,39 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.CategoryRepository.GetAll().ToList().Select(x =>
+                new SelectListItem { Value = x.Id.ToString(), Text = x.Name });
+
+            //ViewBag.CategoryList = CategoryList;
+            //ViewData["CategoryList"] = CategoryList;
+
+            ProductVM productVM = new ProductVM() 
+            {
+                CategoryList = CategoryList,
+                Product = new Product() { }
+            };
+            return View(productVM);
         }
 
         [HttpPost]
-        public IActionResult Create(Product obj)
+        public IActionResult Create(ProductVM obj)
         { 
             if (ModelState.IsValid)
             {
-                _unitOfWork.ProductRepository.Add(obj);
+                _unitOfWork.ProductRepository.Add(obj.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Product created successfully";
                 return RedirectToAction("Index");
             }
-            return View(obj);
+            else
+            {
+                IEnumerable<SelectListItem> CategoryList = _unitOfWork.CategoryRepository.GetAll().ToList().Select(x =>
+                    new SelectListItem { Value = x.Id.ToString(), Text = x.Name });
+
+               obj.CategoryList = CategoryList;
+
+                return View(obj);
+            }    
         }
 
         public IActionResult Edit(int? id)
