@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 
 namespace Bulky.DataAccess.Repository.IRepository
 {
     public interface IRepository<T> where T : class //a type that is a class
     {
         //T - Category
-        IEnumerable<T> GetAll();
+        IEnumerable<T> GetAll(string? includeProperties = null);
 
-        T Get(Expression<Func<T,bool>> filter); //this way items can be retrieved based on multiple properties by usin a link expression
+        T Get(Expression<Func<T,bool>> filter, string? includeProperties = null); //this way items can be retrieved based on multiple properties by usin a link expression
 
         void Add(T entity);
 
