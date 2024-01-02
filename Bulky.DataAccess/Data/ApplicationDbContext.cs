@@ -14,6 +14,7 @@ namespace BulkyWeb.DataAcces.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -111,6 +112,12 @@ namespace BulkyWeb.DataAcces.Data
                     ImageUrl = ""
                 }
                 );
+
+            modelBuilder.Entity<Company>().HasData(
+               new Company { Id = 1, Name = "Tech Solution", StreetAddress = "123 Tech St", City = "Herselt" , PostalCode = "2230" , State = "Belgium" , PhoneNumber = "01455887746" },
+               new Company { Id = 2, Name = "Vivid Books", StreetAddress = "999 Vid St", City = "Miami" , PostalCode = "88857" , State = "Florida" , PhoneNumber = "4441111555887" },
+               new Company { Id = 3, Name = "Readers club", StreetAddress = "555 Read St", City = "Chicago" , PostalCode = "495954" , State = "IL" , PhoneNumber = "888877774444" }
+               );
         }
     }
 }
