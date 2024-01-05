@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Bulky.Utility;
 using Stripe;
+using Bulky.DataAccess.DbInitializer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,11 +43,12 @@ builder.Services.AddSession(option =>
     option.Cookie.IsEssential = true;
 });
 
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+
 //because identity is generated in razor pages, you need to add this
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 var app = builder.Build();
@@ -66,6 +68,7 @@ app.UseRouting();
 app.UseAuthentication(); //always before authorization
 app.UseAuthorization();
 app.UseSession();
+SeedDatabase();
 app.MapRazorPages();
 
 app.MapControllerRoute(
@@ -73,3 +76,13 @@ app.MapControllerRoute(
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        //needs to be registered above
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>(); //Call the Initailize method of DbInitializer.cs
+        dbInitializer.Initialize();
+    }
+}

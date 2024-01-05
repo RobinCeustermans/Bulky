@@ -3,6 +3,7 @@ using Bulky.Models;
 using Bulky.Models.ViewModels;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 using System.Security.Claims;
@@ -14,13 +15,15 @@ namespace BulkyWeb.Areas.Customer.Controllers
     public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailSender _emailSender;
 
         [BindProperty] //this way, you don't need to pass a model to the SummaryPOST
         public ShoppingCartVM ShoppingCartVM { get; set; }
 
-        public CartController(IUnitOfWork unitOfWork)
+        public CartController(IUnitOfWork unitOfWork, IEmailSender emailSender)
         {
             _unitOfWork = unitOfWork;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -188,6 +191,10 @@ namespace BulkyWeb.Areas.Customer.Controllers
 				}
                 HttpContext.Session.Clear();
 			}
+
+            ////send mail when placing order
+            //_emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "New Order - Bulky",
+            //    $"<p>New order created {orderHeader.Id}</p>");
 
             List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCartRepository.GetAll(x => x.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
 
