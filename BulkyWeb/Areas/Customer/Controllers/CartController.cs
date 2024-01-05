@@ -207,9 +207,13 @@ namespace BulkyWeb.Areas.Customer.Controllers
 
         public IActionResult Minus(int cartId)
         {
-            var cartFromDb = _unitOfWork.ShoppingCartRepository.Get(x => x.ShoppingCartId == cartId);
+            var cartFromDb = _unitOfWork.ShoppingCartRepository.Get(x => x.ShoppingCartId == cartId, tracked: true);
             if (cartFromDb.Count <= 1)
             {
+                //subtract number from cart
+                HttpContext.Session.SetInt32(SD.SessionCart,
+                    _unitOfWork.ShoppingCartRepository.GetAll(x => x.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
+
                 _unitOfWork.ShoppingCartRepository.Remove(cartFromDb);
             }
             else
@@ -223,11 +227,15 @@ namespace BulkyWeb.Areas.Customer.Controllers
 
         public IActionResult Remove(int cartId)
         {
-            var cartFromDb = _unitOfWork.ShoppingCartRepository.Get(x => x.ShoppingCartId == cartId);
+            var cartFromDb = _unitOfWork.ShoppingCartRepository.Get(x => x.ShoppingCartId == cartId, tracked:true); //this has to be tracked, toherwise an exception will be thrown
+
+            //subtract number cart
+            HttpContext.Session.SetInt32(SD.SessionCart,
+                _unitOfWork.ShoppingCartRepository.GetAll(x => x.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
 
             _unitOfWork.ShoppingCartRepository.Remove(cartFromDb);
-
             _unitOfWork.Save();
+            
             return RedirectToAction(nameof(Index));
         }
 

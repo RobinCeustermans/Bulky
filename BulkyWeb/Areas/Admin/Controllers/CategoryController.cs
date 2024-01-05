@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BulkyWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = SD.Role_Admin)] //never forget to add this, otherwise when typing link, it will still be accessible
+    [Authorize(Roles = SD.Role_Admin)] //never forget to add this, otherwise when typing link, it will still be accessible
     public class CategoryController : Controller
     {
         //this service needs to be registered

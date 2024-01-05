@@ -1,4 +1,6 @@
-﻿namespace Bulky.Utility
+﻿using System.Configuration;
+
+namespace Bulky.Utility
 {
     public static class SD
     {
@@ -18,5 +20,8 @@
         public const string PaymentStatusApproved = "Approved";
         public const string PaymentStatusDelayedPayment = "ApprovedForDelayedPayment";
         public const string PaymentStatusRejected = "Rejected";
+
+        //seesion
+        public const string SessionCart = "SessionShoppingCart"; 
     }
 }
