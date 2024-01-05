@@ -2,7 +2,6 @@ using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -29,7 +28,8 @@ namespace BulkyWeb.Areas.Customer.Controllers
             if (claim != null)
             {
                 //user is logged in, then get session and show number after cat icon on top
-                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCartRepository.GetAll(x => x.ApplicationUserId == claim.Value).Count());
+                HttpContext.Session.SetInt32(SD.SessionCart, 
+                    _unitOfWork.ShoppingCartRepository.GetAll(x => x.ApplicationUserId == claim.Value).Count());
             }
 
             IEnumerable<Product> products = _unitOfWork.ProductRepository.GetAll(includeProperties: "Category");
