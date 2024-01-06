@@ -43,6 +43,7 @@ namespace Bulky.DataAccess.DbInitializer
                 //if roles are  not created, create admin user
                 _userManager.CreateAsync(new ApplicationUser
                 {
+                    Name = "test",
                     UserName = "admin@dotnetmastery.com",
                     Email = "admin@dotnetmastery.com",
                     PhoneNumber = "1234567890",
