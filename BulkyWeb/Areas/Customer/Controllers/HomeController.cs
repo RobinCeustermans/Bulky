@@ -32,7 +32,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
                     _unitOfWork.ShoppingCartRepository.GetAll(x => x.ApplicationUserId == claim.Value).Count());
             }
 
-            IEnumerable<Product> products = _unitOfWork.ProductRepository.GetAll(includeProperties: "Category");
+            IEnumerable<Product> products = _unitOfWork.ProductRepository.GetAll(includeProperties: "Category,ProductImages");
             return View(products);
         }
 
@@ -40,7 +40,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
         {
             ShoppingCart shoppingCart = new ShoppingCart()
             {
-                Product = _unitOfWork.ProductRepository.Get(x => x.Id == id, includeProperties: "Category"),
+                Product = _unitOfWork.ProductRepository.Get(x => x.Id == id, includeProperties: "Category,ProductImages"),
                 Count = 1,
                 ProductId = id
             };

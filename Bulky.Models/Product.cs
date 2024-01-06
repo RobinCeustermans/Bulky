@@ -39,10 +39,6 @@ namespace Bulky.Models
         [Range(1,100)]
         public double Price100 { get; set; }
 
-        [ValidateNever]
-        public string ImageUrl { get; set; }
-
-
 
         //FK
         public int CategoryId { get; set; }
@@ -51,5 +47,8 @@ namespace Bulky.Models
         [ForeignKey("CategoryId")] //same as propname
         [ValidateNever]
         public Category Category { get; set; }
+
+        [ValidateNever]
+        public List<ProductImage> ProductImages { get; set;} //this way, you will get all Images without having to get the images in a seperate query
     }
 }
