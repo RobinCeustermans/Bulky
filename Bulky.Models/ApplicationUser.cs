@@ -20,7 +20,11 @@ namespace Bulky.Models
 
         [ForeignKey("CompanyId")]
         [ValidateNever]
-        public Company Company { get; set; }
-        
+        public Company? Company { get; set; } //also make this nullable if CompanyId is nullable
+
+        //no property in db
+        [NotMapped]
+        public string Role { get; set; }
+
     }
 }
